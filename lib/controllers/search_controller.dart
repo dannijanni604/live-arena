@@ -1,12 +1,13 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:live_arena/config/constants.dart';
 import 'package:live_arena/models/app_user.dart';
 import 'package:live_arena/models/arena.dart';
 
-class SearchController extends GetxController with StateMixin {
+class SearchAppController extends GetxController with StateMixin {
   RxList<Arena> arenas = RxList<Arena>([]);
   RxList<AppUser> users = RxList<AppUser>([]);
 

@@ -1,14 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:live_arena/components/arena_tile.dart';
-import 'package:live_arena/controllers/search_controller.dart';
 import 'package:live_arena/views/users_view/user_profile_view.dart';
+import 'package:live_arena/controllers/search_controller.dart';
 
 class FindScreen extends StatelessWidget {
-  FindScreen({Key? key}) : super(key: key);
-  final controller = Get.put(SearchController());
+  // FindScreen({Key? key}) : super(key: key);
+  final controller = Get.put(SearchAppController());
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -92,7 +91,7 @@ class FindScreen extends StatelessWidget {
             ),
             controller.obx(
               (state) {
-                if (controller.arenas.length > 0)
+                if (controller.arenas.length > 0) {
                   return ListView.separated(
                     itemBuilder: (context, index) => ArenaTile(
                       arena: controller.arenas[index],
@@ -100,11 +99,13 @@ class FindScreen extends StatelessWidget {
                     separatorBuilder: (context, index) => SizedBox(height: 10),
                     itemCount: controller.arenas.length,
                   );
-                return Center(
+                }
+
+                return const Center(
                   child: Text('No Arenas'),
                 );
               },
-              onEmpty: Center(
+              onEmpty: const Center(
                 child: Text('Search by typing'),
               ),
             ),
