@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:agora_rtc_engine/rtc_engine.dart';
+import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -13,7 +13,7 @@ class LiveArenaController extends GetxController with StateMixin {
   Rx<Arena> arena = Rx<Arena>(Arena());
   AudioController audioController = Get.find();
   String authId = AuthController.to.appUser.value.id!;
-  ClientRole _role = ClientRole.Audience;
+  ClientRoleType _role = ClientRoleType.clientRoleAudience;
 
   final TextEditingController messageTextController = TextEditingController();
 
@@ -38,50 +38,48 @@ class LiveArenaController extends GetxController with StateMixin {
     await engine.switchCamera();
   }
 
-  Future<bool> startAgora(String channel, ClientRole role) async {
-    engine = await RtcEngine.createWithContext(
-      RtcEngineContext("d6bad162b93145d0b2bdcf01ff8d2566"),
-    );
+  Future<bool> startAgora(String channel, ClientRoleType role) async {
+    engine.initialize(
+        RtcEngineContext(appId: "d6bad162b93145d0b2bdcf01ff8d2566"));
     await engine.enableVideo();
     await engine.enableAudio();
-    if (role == ClientRole.Broadcaster) {
+    if (role == ClientRoleType.clientRoleBroadcaster) {
       await engine.startPreview();
     }
-    await engine.setChannelProfile(ChannelProfile.LiveBroadcasting);
-    await engine.setClientRole(role);
-    engine.setEventHandler(
+    await engine
+        .setChannelProfile(ChannelProfileType.channelProfileLiveBroadcasting);
+    await engine.setClientRole(role: role);
+    engine.registerEventHandler(
       RtcEngineEventHandler(
-        error: (error) {
-          printError(info: "live: Error $error");
+        onError: (err, msg) {
+          printError(info: "live: Error $err");
         },
-        joinChannelSuccess: (channel, uid, elapsed) {
+        onJoinChannelSuccess: (channel, uid) {
           printInfo(info: "live: joinChannelSuccess " + userIds.toString());
           change(null, status: RxStatus.success());
         },
-        userJoined: (uid, elapsed) {
-          userIds.add(uid);
+        onUserJoined: (connection, remoteUid, elapsed) {
+          userIds.add(remoteUid);
           printInfo(info: "live: Joined " + userIds.toString());
           change(null, status: RxStatus.success());
         },
-        userOffline: ((uid, reason) {
-          printInfo(info: "live: Offline " + userIds.toString());
-          userIds.remove(uid);
-          change(null, status: RxStatus.success());
-        }),
       ),
     );
     // String token = await AgoraApi()
     //     .getToken(channel, role == ClientRole.Broadcaster ? 0 : 1);
-    Map<String, dynamic> response = await AgoraApi()
-        .getToken2(channel, role == ClientRole.Broadcaster ? 0 : 1);
+    Map<String, dynamic> response = await AgoraApi().getToken2(
+        channel, role == ClientRoleType.clientRoleBroadcaster ? 0 : 1);
     // response['token'];
     // response['ui'];
     await engine.joinChannel(
-        response['tokenA'], channel, null, response['uid']);
+        token: response['tokenA'],
+        channelId: channel,
+        options: ChannelMediaOptions(),
+        uid: response['uid']);
     return true;
   }
 
-  Future start(String channel, ClientRole role, Arena _arena) async {
+  Future start(String channel, ClientRoleType role, Arena _arena) async {
     printError(info: "live: $channel $role ${_arena.id}");
     try {
       DocumentSnapshot<Map<String, dynamic>> d =
@@ -97,7 +95,7 @@ class LiveArenaController extends GetxController with StateMixin {
               ),
         );
         change(arena, status: RxStatus.success());
-        if (role == ClientRole.Audience) {
+        if (role == ClientRoleType.clientRoleAudience) {
           d.reference.update({
             'listeners': FieldValue.arrayUnion([authId])
           });
@@ -133,7 +131,7 @@ class LiveArenaController extends GetxController with StateMixin {
 
   @override
   void onClose() async {
-    if (_role == ClientRole.Audience) {
+    if (_role == ClientRoleType.clientRoleAudience) {
       await dbArena.doc(arena.value.id).update({
         'listeners': FieldValue.arrayRemove([authId])
       });

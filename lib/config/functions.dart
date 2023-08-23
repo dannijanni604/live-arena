@@ -1,4 +1,4 @@
-import 'package:agora_rtc_engine/rtc_engine.dart';
+import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -50,14 +50,14 @@ Widget selectRoleBottomSheet() {
           children: [
             TextButton.icon(
               onPressed: () {
-                Get.back(result: ClientRole.Broadcaster);
+                Get.back(result: ClientRoleType.clientRoleAudience);
               },
               icon: Icon(FontAwesomeIcons.broadcastTower),
               label: Text("Reporter"),
             ),
             TextButton.icon(
               onPressed: () {
-                Get.back(result: ClientRole.Audience);
+                Get.back(result: ClientRoleType.clientRoleAudience);
               },
               icon: Icon(FontAwesomeIcons.headphones),
               label: Text("Listner"),

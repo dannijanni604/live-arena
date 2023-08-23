@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:agora_rtc_engine/rtc_engine.dart';
+import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -110,19 +110,19 @@ class ArenaTile extends StatelessWidget {
               onPressed: () async {
                 await Permission.camera.request();
                 await Permission.microphone.request();
-                ClientRole role = ClientRole.Audience;
+                ClientRoleType role = ClientRoleType.clientRoleAudience;
                 String? authId = AuthController.to.appUser.value.id;
                 if (arena.user!.id == authId) {
                   printInfo(info: 'same author of the arena');
-                  role = ClientRole.Broadcaster;
+                  role = ClientRoleType.clientRoleBroadcaster;
                 } else {
                   if (arena.broadcasters!.contains(authId)) {
-                    ClientRole? _selected = await Get.bottomSheet(
+                    ClientRoleType? _selected = await Get.bottomSheet(
                       selectRoleBottomSheet(),
                       backgroundColor: Colors.white,
                     );
                     if (_selected == null) {
-                      role = ClientRole.Audience;
+                      role = ClientRoleType.clientRoleAudience;
                     } else {
                       role = _selected;
                     }

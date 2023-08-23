@@ -1,4 +1,4 @@
-import 'package:agora_rtc_engine/rtc_engine.dart';
+import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:live_arena/api/agora_api.dart';
@@ -40,39 +40,49 @@ class AudioController extends GetxController {
 
   /// Create agora sdk instance and initialize
   Future<void> _initAgoraRtcEngine() async {
-    _engine = await RtcEngine.createWithContext(RtcEngineContext(agorAppId));
+    _engine!.initialize(RtcEngineContext(appId: agorAppId));
+
     await _engine!.enableVideo();
-    await _engine!.setChannelProfile(ChannelProfile.LiveBroadcasting);
-    _engine!.setEventHandler(_rtcEventHandler());
+    await _engine!
+        .setChannelProfile(ChannelProfileType.channelProfileLiveBroadcasting);
+    _engine!.registerEventHandler(_rtcEventHandler());
     VideoEncoderConfiguration configuration = VideoEncoderConfiguration();
-    configuration.dimensions = const VideoDimensions(width: 854, height: 480);
+    // configuration.dimensions = const VideoDimensions(width: 854, height: 480);
     await _engine!.setVideoEncoderConfiguration(configuration);
     await _engine!.startPreview();
     // await _engine!.startPreview();
   }
 
   RtcEngineEventHandler _rtcEventHandler() {
-    return RtcEngineEventHandler(joinChannelSuccess: (channel, uid, elapsed) {
-      printInfo(info: 'joinChannelSuccess $channel $uid $elapsed');
-    }, leaveChannel: (RtcStats state) {
+    return RtcEngineEventHandler(onJoinChannelSuccess: (
+      channel,
+      uid,
+    ) {
+      printInfo(info: 'joinChannelSuccess $channel $uid');
+    }, onLeaveChannel: (RtcConnection connection, RtcStats state) {
       printInfo(info: 'leaveChannel ${state.duration}');
-    }, userOffline: (uid, reason) {
-      printError(info: 'UserOffile $uid $reason');
+      printInfo(info: 'channelId ${connection.channelId}');
+    }, onUserOffline: (uid, reason, userofLineReasonType) {
+      printError(info: 'UserOffile $uid $reason $userofLineReasonType');
       _joindUIds.remove(uid);
-    }, userJoined: (uid, elapsed) {
-      printError(info: 'UserJoined $uid $elapsed');
+    }, onUserJoined: (connnection, uid, elapsed) {
+      printError(info: 'UserJoined $uid $elapsed ');
       _joindUIds.add(uid);
     });
   }
 
-  Future<bool> joinCahnnel(String channel, ClientRole role) async {
+  Future<bool> joinCahnnel(String channel, ClientRoleType role) async {
     try {
       String data = await AgoraApi().getToken(
         channel,
-        role == ClientRole.Broadcaster ? 1 : 0,
+        role == ClientRoleType.clientRoleBroadcaster ? 1 : 0,
       );
-      await _engine!.joinChannel(data, channel, null, 0, null);
-      await _engine!.setClientRole(role);
+      await _engine!.joinChannel(
+          token: data,
+          channelId: channel,
+          uid: 0,
+          options: ChannelMediaOptions());
+      await _engine!.setClientRole(role: role);
       return true;
     } catch (e) {
       printError(info: "join Channel" + e.toString());
@@ -84,7 +94,7 @@ class AudioController extends GetxController {
   void onClose() {
     // Wakelock.disable();
     _engine?.leaveChannel();
-    _engine?.destroy();
+    // _engine.d .destroy();
     super.onClose();
   }
 }

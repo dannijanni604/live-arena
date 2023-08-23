@@ -148,7 +148,8 @@ class AuthController extends GetxController {
         onChangeAuthtication(true);
       },
       verificationFailed: (FirebaseAuthException exception) {
-        kErrorSnakBar('Verification Faild: ${exception.message}');
+        kErrorSnakBar('Verification Faild: Try Again');
+        print('${exception.message}');
         EasyLoading.dismiss();
       },
     );

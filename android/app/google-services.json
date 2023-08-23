@@ -1,41 +1,33 @@
 {
   "project_info": {
-    "project_number": "440326227465",
-    "project_id": "live-arena-97277",
-    "storage_bucket": "live-arena-97277.appspot.com"
+    "project_number": "388173570976",
+    "project_id": "live-arena-f1a4f",
+    "storage_bucket": "live-arena-f1a4f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:440326227465:android:b91b1bd570f15198fedad8",
+        "mobilesdk_app_id": "1:388173570976:android:82cf128b6e865f61f7fac5",
         "android_client_info": {
           "package_name": "com.example.live_arena"
         }
       },
       "oauth_client": [
         {
-          "client_id": "440326227465-kgu1cbg7b1smbvlvr3ivsbjk1tp05m7l.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.live_arena",
-            "certificate_hash": "76c6622b3407781f29541109697a11085472459f"
-          }
-        },
-        {
-          "client_id": "440326227465-k5g1mo4908e90susmu161tfgufjj9j2m.apps.googleusercontent.com",
+          "client_id": "388173570976-nb4q3qhkdud5glvrjn0qasgri8bdjq2p.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD3tDXGheQtW5U-Z_di03SQ68g91Q7tyCI"
+          "current_key": "AIzaSyCaDtOwg2wgf2kDRBDthKLEaRuUl9mW8F4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "440326227465-k5g1mo4908e90susmu161tfgufjj9j2m.apps.googleusercontent.com",
+              "client_id": "388173570976-nb4q3qhkdud5glvrjn0qasgri8bdjq2p.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

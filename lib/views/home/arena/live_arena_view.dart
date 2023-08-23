@@ -1,11 +1,10 @@
-import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:bubble/bubble.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:agora_rtc_engine/rtc_local_view.dart' as localView;
-import 'package:agora_rtc_engine/rtc_remote_view.dart' as remoteView;
+// import 'package:agora_rtc_engine/rtc_local_view.dart' as localView;
+// import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
 import 'package:live_arena/components/arena_status_btn.dart';
 import 'package:live_arena/components/favourites_icon.dart';
 import 'package:live_arena/components/rounded_btn.dart';
@@ -16,12 +15,13 @@ import 'package:live_arena/controllers/audio_controller.dart';
 import 'package:live_arena/controllers/live_arena_controller.dart';
 import 'package:live_arena/models/arena.dart';
 import 'package:live_arena/views/users_view/users_list_view.dart';
+import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 
 class LiveArenaView extends StatefulWidget {
   const LiveArenaView({Key? key, required this.arena, required this.role})
       : super(key: key);
   final Arena arena;
-  final ClientRole role;
+  final ClientRoleType role;
 
   @override
   _LiveArenaViewState createState() => _LiveArenaViewState();
@@ -41,48 +41,48 @@ class _LiveArenaViewState extends State<LiveArenaView> {
   Widget buildVideo() {
     switch (controller.userIds.length) {
       case 1:
-        return remoteView.SurfaceView(
-          channelId: widget.arena.id!,
-          uid: controller.userIds.toList()[0],
-        );
+      // return remoteView.SurfaceView(
+      //   channelId: widget.arena.id!,
+      //   uid: controller.userIds.toList()[0],
+      // );
       case 2:
         return Row(
           children: [
-            Expanded(
-              child: remoteView.SurfaceView(
-                channelId: widget.arena.id!,
-                uid: controller.userIds.toList()[0],
-              ),
-            ),
-            Expanded(
-              child: remoteView.SurfaceView(
-                channelId: widget.arena.id!,
-                uid: controller.userIds.toList()[1],
-              ),
-            )
+            // Expanded(
+            // child: remoteView.SurfaceView(
+            //   channelId: widget.arena.id!,
+            //   uid: controller.userIds.toList()[0],
+            // ),
+            // ),
+            // Expanded(
+            //   child: remoteView.SurfaceView(
+            //     channelId: widget.arena.id!,
+            //     uid: controller.userIds.toList()[1],
+            //   ),
+            // )
           ],
         );
       case 3:
         return Row(
           children: [
-            Expanded(
-              child: remoteView.SurfaceView(
-                channelId: widget.arena.id!,
-                uid: controller.userIds.toList()[0],
-              ),
-            ),
-            Expanded(
-              child: remoteView.SurfaceView(
-                channelId: widget.arena.id!,
-                uid: controller.userIds.toList()[1],
-              ),
-            ),
-            Expanded(
-              child: remoteView.SurfaceView(
-                channelId: widget.arena.id!,
-                uid: controller.userIds.toList()[2],
-              ),
-            )
+            // Expanded(
+            //   child: remoteView.SurfaceView(
+            //     channelId: widget.arena.id!,
+            //     uid: controller.userIds.toList()[0],
+            //   ),
+            // ),
+            // Expanded(
+            //   child: remoteView.SurfaceView(
+            //     channelId: widget.arena.id!,
+            //     uid: controller.userIds.toList()[1],
+            //   ),
+            // ),
+            // Expanded(
+            //   child: remoteView.SurfaceView(
+            //     channelId: widget.arena.id!,
+            //     uid: controller.userIds.toList()[2],
+            //   ),
+            // )
           ],
         );
       default:
@@ -106,26 +106,10 @@ class _LiveArenaViewState extends State<LiveArenaView> {
               child: Stack(
                 fit: StackFit.loose,
                 children: [
-                  if (widget.role == ClientRole.Broadcaster)
-                    const localView.SurfaceView(),
-                  if (widget.role == ClientRole.Audience)
-                    // GridView.builder(
-                    //   gridDelegate:
-                    //       const SliverGridDelegateWithFixedCrossAxisCount(
-                    //     crossAxisCount: 3,
-                    //     childAspectRatio: 0.7,
-                    //   ),
-                    //   itemCount: controller.userIds.length,
-                    //   itemBuilder: (context, index) {
-                    //     return remoteView.SurfaceView(
-                    //       mirrorMode: VideoMirrorMode.Enabled,
-                    //       renderMode: VideoRenderMode.Fit,
-                    //       channelId: widget.arena.id!,
-                    //       uid: controller.userIds.toList()[index],
-                    //     );
-                    //   },
-                    // ),
-                    buildVideo(),
+                  if (widget.role == ClientRoleType.clientRoleBroadcaster)
+                    // const localView.SurfaceView(),
+                    if (widget.role == ClientRoleType.clientRoleAudience)
+                      buildVideo(),
                   Container(
                     height: MediaQuery.of(context).size.height,
                     width: double.infinity,
@@ -192,7 +176,8 @@ class _LiveArenaViewState extends State<LiveArenaView> {
                                   ),
                                 ),
                                 const Spacer(),
-                                if (widget.role == ClientRole.Broadcaster)
+                                if (widget.role ==
+                                    ClientRoleType.clientRoleBroadcaster)
                                   cameraButton(),
                                 volumeButton(),
                               ],
