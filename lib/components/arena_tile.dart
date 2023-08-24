@@ -22,7 +22,7 @@ class ArenaTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(8),
-      width: MediaQuery.of(context).size.width - 20,
+      width: MediaQuery.of(context).size.width - 5,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -39,7 +39,7 @@ class ArenaTile extends StatelessWidget {
         children: [
           Container(
             alignment: Alignment.topRight,
-            height: 180,
+            height: 150,
             width: double.infinity,
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
@@ -71,8 +71,7 @@ class ArenaTile extends StatelessWidget {
                     color: Colors.white.withOpacity(0.7),
                   ),
                   child: Text(
-                    'Started At :: ' +
-                        arena.startAt!.substring(10, 16).toString(),
+                    'Started At ::${arena.startAt!.substring(10, 16).toString()}',
                   ),
                 ),
               ],

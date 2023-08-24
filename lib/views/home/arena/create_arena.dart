@@ -251,6 +251,7 @@ class _CreateArenaScreenState extends State<CreateArenaScreen> {
                     _arenaformKey.currentState!.value,
                     image!.value,
                   );
+                  Get.back();
                 }
               },
               color: AppTheme.primaryColor,

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
@@ -10,9 +9,7 @@ import 'package:live_arena/config/apptheme.dart';
 import 'package:live_arena/config/constants.dart';
 import 'package:live_arena/controllers/auth_controller.dart';
 import 'package:live_arena/views/home/home.dart';
-import 'package:live_arena/views/profile/profile_screen.dart';
 import 'package:otp_text_field/otp_field.dart';
-import 'package:otp_text_field/style.dart';
 
 class SmsVerificationScreen extends StatefulWidget {
   const SmsVerificationScreen({
