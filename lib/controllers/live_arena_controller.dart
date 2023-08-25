@@ -19,6 +19,7 @@ class LiveArenaController extends GetxController with StateMixin {
 
   late RtcEngine engine;
   RxSet<int> userIds = RxSet<int>({});
+  String appId = '';
 
   RxBool speakerOn = true.obs;
 
@@ -34,13 +35,25 @@ class LiveArenaController extends GetxController with StateMixin {
     super.onInit();
   }
 
+  @override
+  void onReady() {
+    engine = audioController.engine;
+    appId = audioController.agorAppId;
+    super.onReady();
+  }
+
   Future changeCamera() async {
     await engine.switchCamera();
   }
 
   Future<bool> startAgora(String channel, ClientRoleType role) async {
+    // engine = createAgoraRtcEngine();
     engine.initialize(
-        RtcEngineContext(appId: "d6bad162b93145d0b2bdcf01ff8d2566"));
+        //   old appID
+        // RtcEngineContext(appId: "d6bad162b93145d0b2bdcf01ff8d2566"));
+        //   new appID
+        RtcEngineContext(appId: appId));
+
     await engine.enableVideo();
     await engine.enableAudio();
     if (role == ClientRoleType.clientRoleBroadcaster) {

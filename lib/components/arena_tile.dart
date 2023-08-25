@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:live_arena/config/apptheme.dart';
 import 'package:live_arena/config/functions.dart';
+import 'package:live_arena/controllers/audio_controller.dart';
 import 'package:live_arena/controllers/auth_controller.dart';
+import 'package:live_arena/controllers/live_arena_controller.dart';
 import 'package:live_arena/models/arena.dart';
 import 'package:live_arena/views/home/arena/live_arena_view.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -14,10 +16,11 @@ import 'arena_status_btn.dart';
 import 'text_styles.dart';
 
 class ArenaTile extends StatelessWidget {
-  const ArenaTile({Key? key, required this.arena}) : super(key: key);
+  ArenaTile({Key? key, required this.arena}) : super(key: key);
 
   final Arena arena;
 
+  final liveArenaCtrl = Get.put(LiveArenaController());
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -129,7 +132,11 @@ class ArenaTile extends StatelessWidget {
                 }
                 log(arena.image.toString());
                 log(arena.user!.avatar.toString());
-                Get.to(() => LiveArenaView(arena: arena, role: role));
+                Get.to(() => LiveArenaView(
+                      rtcEngile: liveArenaCtrl.engine,
+                      arena: arena,
+                      role: role,
+                    ));
               },
               icon: const Icon(
                 Icons.play_circle_fill,

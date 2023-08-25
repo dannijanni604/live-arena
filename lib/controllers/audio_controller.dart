@@ -15,7 +15,8 @@ class AudioController extends GetxController {
   List<int> get joinedUsersIds => _joindUIds;
   // Video Calling Agora
   RtcEngine? _engine;
-  final String agorAppId = 'd6bad162b93145d0b2bdcf01ff8d2566';
+  // final String agorAppId = 'd6bad162b93145d0b2bdcf01ff8d2566';
+  final String agorAppId = 'cbac4a74226f4019a2f38bc58aa07f4e';
   RtcEngine get engine => _engine!;
   RxBool speakerOn = true.obs;
 
@@ -34,13 +35,18 @@ class AudioController extends GetxController {
 
   @override
   void onReady() {
+    print("_initAgoraRtcEngine");
     _initAgoraRtcEngine();
     super.onReady();
   }
 
   /// Create agora sdk instance and initialize
   Future<void> _initAgoraRtcEngine() async {
-    _engine!.initialize(RtcEngineContext(appId: agorAppId));
+    _engine = createAgoraRtcEngine();
+    await _engine!.initialize(RtcEngineContext(
+      appId: agorAppId,
+      // channelProfile: ChannelProfileType.channelProfileLiveBroadcasting,
+    ));
 
     await _engine!.enableVideo();
     await _engine!
@@ -73,15 +79,19 @@ class AudioController extends GetxController {
 
   Future<bool> joinCahnnel(String channel, ClientRoleType role) async {
     try {
-      String data = await AgoraApi().getToken(
+      Map<String, dynamic> data = await AgoraApi().getToken(
         channel,
         role == ClientRoleType.clientRoleBroadcaster ? 1 : 0,
       );
+
       await _engine!.joinChannel(
-          token: data,
+          token: data['token'],
           channelId: channel,
-          uid: 0,
-          options: ChannelMediaOptions());
+          uid: data['uid'],
+          options: const ChannelMediaOptions());
+
+      // final token = data['token'];
+      // print(" My token  $token");
       await _engine!.setClientRole(role: role);
       return true;
     } catch (e) {

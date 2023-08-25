@@ -18,10 +18,15 @@ import 'package:live_arena/views/users_view/users_list_view.dart';
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 
 class LiveArenaView extends StatefulWidget {
-  const LiveArenaView({Key? key, required this.arena, required this.role})
+  const LiveArenaView(
+      {Key? key,
+      required this.arena,
+      required this.role,
+      required this.rtcEngile})
       : super(key: key);
   final Arena arena;
   final ClientRoleType role;
+  final RtcEngine rtcEngile;
 
   @override
   _LiveArenaViewState createState() => _LiveArenaViewState();
@@ -41,48 +46,70 @@ class _LiveArenaViewState extends State<LiveArenaView> {
   Widget buildVideo() {
     switch (controller.userIds.length) {
       case 1:
-      // return remoteView.SurfaceView(
+        return AgoraVideoView(
+          controller: VideoViewController.remote(
+            rtcEngine: widget.rtcEngile,
+            canvas: VideoCanvas(uid: controller.userIds.toList()[0]),
+            connection: RtcConnection(channelId: widget.arena.id),
+          ),
+        );
+
+      // remoteView.SurfaceView(
       //   channelId: widget.arena.id!,
       //   uid: controller.userIds.toList()[0],
       // );
       case 2:
         return Row(
           children: [
-            // Expanded(
-            // child: remoteView.SurfaceView(
-            //   channelId: widget.arena.id!,
-            //   uid: controller.userIds.toList()[0],
-            // ),
-            // ),
-            // Expanded(
-            //   child: remoteView.SurfaceView(
-            //     channelId: widget.arena.id!,
-            //     uid: controller.userIds.toList()[1],
-            //   ),
-            // )
+            Expanded(
+              child: AgoraVideoView(
+                controller: VideoViewController.remote(
+                  rtcEngine: widget.rtcEngile,
+                  canvas: VideoCanvas(uid: controller.userIds.toList()[0]),
+                  connection: RtcConnection(channelId: widget.arena.id),
+                ),
+              ),
+            ),
+            Expanded(
+                child: AgoraVideoView(
+              controller: VideoViewController.remote(
+                rtcEngine: widget.rtcEngile,
+                canvas: VideoCanvas(uid: controller.userIds.toList()[0]),
+                connection: RtcConnection(channelId: widget.arena.id),
+              ),
+            ))
           ],
         );
       case 3:
         return Row(
           children: [
-            // Expanded(
-            //   child: remoteView.SurfaceView(
-            //     channelId: widget.arena.id!,
-            //     uid: controller.userIds.toList()[0],
-            //   ),
-            // ),
-            // Expanded(
-            //   child: remoteView.SurfaceView(
-            //     channelId: widget.arena.id!,
-            //     uid: controller.userIds.toList()[1],
-            //   ),
-            // ),
-            // Expanded(
-            //   child: remoteView.SurfaceView(
-            //     channelId: widget.arena.id!,
-            //     uid: controller.userIds.toList()[2],
-            //   ),
-            // )
+            Expanded(
+              child: AgoraVideoView(
+                controller: VideoViewController.remote(
+                  rtcEngine: widget.rtcEngile,
+                  canvas: VideoCanvas(uid: controller.userIds.toList()[0]),
+                  connection: RtcConnection(channelId: widget.arena.id),
+                ),
+              ),
+            ),
+            Expanded(
+              child: AgoraVideoView(
+                controller: VideoViewController.remote(
+                  rtcEngine: widget.rtcEngile,
+                  canvas: VideoCanvas(uid: controller.userIds.toList()[0]),
+                  connection: RtcConnection(channelId: widget.arena.id),
+                ),
+              ),
+            ),
+            Expanded(
+              child: AgoraVideoView(
+                controller: VideoViewController.remote(
+                  rtcEngine: widget.rtcEngile,
+                  canvas: VideoCanvas(uid: controller.userIds.toList()[0]),
+                  connection: RtcConnection(channelId: widget.arena.id),
+                ),
+              ),
+            ),
           ],
         );
       default:

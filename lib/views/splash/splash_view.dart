@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:live_arena/controllers/auth_controller.dart';
-import 'package:live_arena/views/authentication/auth_with_number.dart';
 import 'package:live_arena/views/authentication/signup.dart';
 
 class SplashView extends StatefulWidget {
