@@ -19,7 +19,7 @@ class LiveArenaController extends GetxController with StateMixin {
 
   late RtcEngine engine;
   RxSet<int> userIds = RxSet<int>({});
-  String appId = '';
+  String appId = 'cbac4a74226f4019a2f38bc58aa07f4e';
 
   RxBool speakerOn = true.obs;
 
@@ -38,7 +38,6 @@ class LiveArenaController extends GetxController with StateMixin {
   @override
   void onReady() {
     engine = audioController.engine;
-    appId = audioController.agorAppId;
     super.onReady();
   }
 
@@ -48,11 +47,7 @@ class LiveArenaController extends GetxController with StateMixin {
 
   Future<bool> startAgora(String channel, ClientRoleType role) async {
     // engine = createAgoraRtcEngine();
-    engine.initialize(
-        //   old appID
-        // RtcEngineContext(appId: "d6bad162b93145d0b2bdcf01ff8d2566"));
-        //   new appID
-        RtcEngineContext(appId: appId));
+    engine.initialize(RtcEngineContext(appId: appId));
 
     await engine.enableVideo();
     await engine.enableAudio();
@@ -78,14 +73,11 @@ class LiveArenaController extends GetxController with StateMixin {
         },
       ),
     );
-    // String token = await AgoraApi()
-    //     .getToken(channel, role == ClientRole.Broadcaster ? 0 : 1);
+
     Map<String, dynamic> response = await AgoraApi().getToken2(
         channel, role == ClientRoleType.clientRoleBroadcaster ? 0 : 1);
-    // response['token'];
-    // response['ui'];
     await engine.joinChannel(
-        token: response['tokenA'],
+        token: response['token'],
         channelId: channel,
         options: ChannelMediaOptions(),
         uid: response['uid']);

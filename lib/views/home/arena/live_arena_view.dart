@@ -47,35 +47,30 @@ class _LiveArenaViewState extends State<LiveArenaView> {
     switch (controller.userIds.length) {
       case 1:
         return AgoraVideoView(
-          controller: VideoViewController.remote(
+          controller: VideoViewController(
             rtcEngine: widget.rtcEngile,
-            canvas: VideoCanvas(uid: controller.userIds.toList()[0]),
-            connection: RtcConnection(channelId: widget.arena.id),
+            canvas: VideoCanvas(uid: 0),
+            // connection: RtcConnection(channelId: widget.arena.id),
           ),
         );
-
-      // remoteView.SurfaceView(
-      //   channelId: widget.arena.id!,
-      //   uid: controller.userIds.toList()[0],
-      // );
       case 2:
         return Row(
           children: [
             Expanded(
               child: AgoraVideoView(
-                controller: VideoViewController.remote(
+                controller: VideoViewController(
                   rtcEngine: widget.rtcEngile,
                   canvas: VideoCanvas(uid: controller.userIds.toList()[0]),
-                  connection: RtcConnection(channelId: widget.arena.id),
+                  // connection: RtcConnection(channelId: widget.arena.id),
                 ),
               ),
             ),
             Expanded(
                 child: AgoraVideoView(
-              controller: VideoViewController.remote(
+              controller: VideoViewController(
                 rtcEngine: widget.rtcEngile,
                 canvas: VideoCanvas(uid: controller.userIds.toList()[0]),
-                connection: RtcConnection(channelId: widget.arena.id),
+                // connection: RtcConnection(channelId: widget.arena.id),
               ),
             ))
           ],
@@ -85,28 +80,28 @@ class _LiveArenaViewState extends State<LiveArenaView> {
           children: [
             Expanded(
               child: AgoraVideoView(
-                controller: VideoViewController.remote(
+                controller: VideoViewController(
                   rtcEngine: widget.rtcEngile,
                   canvas: VideoCanvas(uid: controller.userIds.toList()[0]),
-                  connection: RtcConnection(channelId: widget.arena.id),
+                  // connection: RtcConnection(channelId: widget.arena.id),
                 ),
               ),
             ),
             Expanded(
               child: AgoraVideoView(
-                controller: VideoViewController.remote(
+                controller: VideoViewController(
                   rtcEngine: widget.rtcEngile,
                   canvas: VideoCanvas(uid: controller.userIds.toList()[0]),
-                  connection: RtcConnection(channelId: widget.arena.id),
+                  // connection: RtcConnection(channelId: widget.arena.id),
                 ),
               ),
             ),
             Expanded(
               child: AgoraVideoView(
-                controller: VideoViewController.remote(
+                controller: VideoViewController(
                   rtcEngine: widget.rtcEngile,
                   canvas: VideoCanvas(uid: controller.userIds.toList()[0]),
-                  connection: RtcConnection(channelId: widget.arena.id),
+                  // connection: RtcConnection(channelId: widget.arena.id),
                 ),
               ),
             ),
@@ -128,15 +123,19 @@ class _LiveArenaViewState extends State<LiveArenaView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: MediaQuery.of(context).size.height / 4,
+              height: MediaQuery.of(context).size.height / 3,
               width: double.infinity,
               child: Stack(
                 fit: StackFit.loose,
                 children: [
                   if (widget.role == ClientRoleType.clientRoleBroadcaster)
-                    // const localView.SurfaceView(),
-                    if (widget.role == ClientRoleType.clientRoleAudience)
-                      buildVideo(),
+                    AgoraVideoView(
+                        controller: VideoViewController(
+                      rtcEngine: widget.rtcEngile,
+                      canvas: VideoCanvas(uid: 0),
+                    )),
+                  if (widget.role == ClientRoleType.clientRoleAudience)
+                    buildVideo(),
                   Container(
                     height: MediaQuery.of(context).size.height,
                     width: double.infinity,
@@ -370,7 +369,7 @@ class MiddleSectionOfLiveArenaScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
@@ -384,9 +383,13 @@ class MiddleSectionOfLiveArenaScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                widget.arena.title!,
-                style: txt20b,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Text(
+                  widget.arena.title!,
+                  overflow: TextOverflow.ellipsis,
+                  style: txt16b,
+                ),
               ),
               RoundedButton(
                 onPressed: () {},
@@ -399,13 +402,18 @@ class MiddleSectionOfLiveArenaScreen extends StatelessWidget {
           ),
           // const SizedBox(height: 10),
           Container(
+            height: 50,
             decoration: BoxDecoration(
-              color: Colors.greenAccent,
-              borderRadius: BorderRadius.circular(100),
+              // color: Colors.greenAccent,
+              borderRadius: BorderRadius.circular(50),
             ),
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 100),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                const Text("BroadCaster",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                Spacer(),
                 ...controller.arena.value.broadcastersAvatar!.reversed.map((e) {
                   return GestureDetector(
                     onTap: (() {
@@ -414,7 +422,15 @@ class MiddleSectionOfLiveArenaScreen extends StatelessWidget {
                           title: "BroadCaster"));
                     }),
                     child: CircleAvatar(
-                      backgroundImage: CachedNetworkImageProvider(e.toString()),
+                      backgroundColor: Colors.blue,
+                      child: Padding(
+                        padding: const EdgeInsets.all(1.5),
+                        child: CircleAvatar(
+                          backgroundImage: CachedNetworkImageProvider(
+                            e.toString(),
+                          ),
+                        ),
+                      ),
                     ),
                   );
                 }),

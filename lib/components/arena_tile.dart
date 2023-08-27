@@ -139,7 +139,7 @@ class ArenaTile extends StatelessWidget {
                     ));
               },
               icon: const Icon(
-                Icons.play_circle_fill,
+                Icons.play_circle_fill_outlined,
                 size: 40,
               ),
             ),
