@@ -85,9 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             CircleAvatar(
                               maxRadius: 25,
-                              backgroundImage:
-                                  // AssetImage("assets/images/user.jpg"),
-                                  CachedNetworkImageProvider(
+                              backgroundImage: CachedNetworkImageProvider(
                                 AuthController.to.appUser.value.avatar ?? "",
                               ),
                             ),
@@ -116,13 +114,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                         value.toJson(),
                                   )
                                   .snapshots(),
-                              // .where(
-                              //   'sport',
-                              //   whereIn: AuthController
-                              //       .to.appUser.value.sports!
-                              //       .take(10)
-                              //       .toList(),
-                              // )
                               builder: (context, snapshot) {
                                 if (!snapshot.hasData) {
                                   return const Center(
@@ -147,14 +138,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               },
                             ),
                           ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            child: Text(
-                              "Upcoming Events",
-                              style: txt20b,
-                            ),
-                          ),
-                          // buildRecomendedArene(context),
                         ],
                       ),
                     ),
@@ -164,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const SearchTab(),
               const ArenaTab(),
               ProfileTab(),
-              VideoCliptab(),
+              const VideoCliptab(),
             ],
           ),
         ),
@@ -179,10 +162,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
           gapLocation: GapLocation.none,
           activeIndex: _bottomNavIndex,
-          // gapLocation: GapLocation.center,
           notchSmoothness: NotchSmoothness.defaultEdge,
           onTap: (index) => setState(() => _bottomNavIndex = index),
-          //other params
         ),
       ),
     );

@@ -1,12 +1,10 @@
 import 'dart:developer';
-
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:live_arena/config/apptheme.dart';
 import 'package:live_arena/config/functions.dart';
-import 'package:live_arena/controllers/audio_controller.dart';
 import 'package:live_arena/controllers/auth_controller.dart';
 import 'package:live_arena/controllers/live_arena_controller.dart';
 import 'package:live_arena/models/arena.dart';

@@ -10,28 +10,7 @@ class ArenaTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:
-          // body: StreamBuilder<QuerySnapshot<Arena>>(
-          //   stream: dbArena
-          //       .where('user.id', isEqualTo: AuthController.to.appUser.value.id)
-          //       .withConverter<Arena>(
-          //         fromFirestore: (snapshot, options) => Arena.fromJson(snapshot),
-          //         toFirestore: (value, options) => value.toJson(),
-          //       )
-          //       .snapshots(),
-          //   builder: (context, snapshot) {
-          //     if (!snapshot.hasData) {
-          //       return const Center(
-          //         child: CircularProgressIndicator(),
-          //       );
-          //     } else if (snapshot.data!.docs.isNotEmpty) {
-          //       return buildEmptyArean();
-          //     }
-          //     return const Text('');
-          //   },
-          // ),
-          buildEmptyArean(),
-      // bottomSheet: buildCreateOrSearchArenaBtn(context),
+      body: buildEmptyArean(),
     );
   }
 

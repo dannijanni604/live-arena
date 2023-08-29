@@ -335,7 +335,8 @@ class ProfileTab extends StatelessWidget {
                           color: AppTheme.primaryColor,
                         ),
                       ],
-                    )
+                    ),
+                    SizedBox(height: 50)
                   ],
                 ),
               ),
