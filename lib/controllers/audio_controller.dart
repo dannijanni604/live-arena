@@ -1,7 +1,6 @@
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:live_arena/api/agora_api.dart';
 
 class AudioController extends GetxController {
   // Scaffold

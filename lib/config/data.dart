@@ -1,5 +1,8 @@
 class SportsData {
   List<String> physicalSports = [
+    "Cricket",
+    "FootBall",
+    "Hockey",
     "Breakdancing",
     "Cheerleading",
     "Competitive dancing",
@@ -53,6 +56,7 @@ class SportsData {
 
 class LanguagesData {
   final List<String> languages = [
+    'Urdu',
     'English',
     'Spanish',
     'Arabic',
