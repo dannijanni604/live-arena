@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:live_arena/config/apptheme.dart';
 import 'package:live_arena/config/functions.dart';
-import 'package:live_arena/controllers/audio_controller.dart';
 import 'package:live_arena/controllers/auth_controller.dart';
 import 'package:live_arena/controllers/live_arena_controller.dart';
 import 'package:live_arena/models/arena.dart';
@@ -103,7 +102,7 @@ class ArenaTile extends StatelessWidget {
             ),
             title: Text("${arena.title}", style: txt18b),
             subtitle: Text(
-              arena.description!,
+              arena.description ?? "No description yet",
               style: const TextStyle(fontSize: 14),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
